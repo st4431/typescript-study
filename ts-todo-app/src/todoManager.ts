@@ -1,4 +1,4 @@
-import type { Todo, TodoStatus } from './todo.js';
+import type { Todo, TodoStatus } from './todo.ts';
 
 export class TodoManager {
   private todos: Todo[] = [];

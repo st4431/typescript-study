@@ -26,8 +26,7 @@ function App() {
   }
 
   const deleteTodo = (id: number) => {
-    todos.filter((todo) => todo.id !== id);
-    setTodos(todos);
+    setTodos(todos.filter((todo) => todo.id !== id));
   }
 
   return (
@@ -39,7 +38,7 @@ function App() {
 
       {/* TodoListというコンポーネント（メソッド）を呼び出し、todosというProps（引数、左辺）としてtodos（引数、右辺）を渡します */}
       {/* 渡すtodosはApp.tsxで初期化したもの */}
-      <TodoList todos={todos, deleteTodo} />
+      <TodoList todos={todos} onDelete={deleteTodo} />
     </>
   );
 }

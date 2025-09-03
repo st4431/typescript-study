@@ -7,19 +7,13 @@ interface TodoListProps {
   onDelete: (id: number) => void;
 }
 
-export function TodoList({ todos }: TodoListProps) {
-  const [deletedId, setDeletedId] = useState<number>();
-  const handleDelete = () => {
-    on
-  }
-  
-
+export function TodoList({ todos, onDelete }: TodoListProps) {
   return (
     <ul>
       {todos.map((todo) => (
         <li key={todo.id}>
           {todo.text}
-          <button onClick={setDeletedId(todo.id)}></button>
+          <button onClick={onDelete(todo.id)}></button>
         </li>
       ))}
     </ul>

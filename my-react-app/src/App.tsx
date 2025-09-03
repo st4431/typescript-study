@@ -25,11 +25,21 @@ function App() {
     setTodos([...todos, newTodo]);
   }
 
+  const deleteTodo = (id: number) => {
+    todos.filter((todo) => todo.id !== id);
+    setTodos(todos);
+  }
+
   return (
     <>
       <h1>TODOリスト</h1>
+      {/* TodoFormというコンポーネント（メソッド）を呼び出し、onAddというProps（引数、左辺）としてaddTodo（引数、右辺）を渡します */}
+      {/* 渡すaddTodoはApp.tsxで初期化したもの */}
       <TodoForm onAdd={addTodo} />
-      <TodoList todos={todos} />
+
+      {/* TodoListというコンポーネント（メソッド）を呼び出し、todosというProps（引数、左辺）としてtodos（引数、右辺）を渡します */}
+      {/* 渡すtodosはApp.tsxで初期化したもの */}
+      <TodoList todos={todos, deleteTodo} />
     </>
   );
 }

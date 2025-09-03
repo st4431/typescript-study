@@ -1,6 +1,7 @@
 import { useState } from "react";
 
 interface TodoFormProps {
+  // 引数が（）ではなく{}で囲まれている場合は、関数あるいはオブジェクトを表す
   onAdd: (text: string) => void;
 }
 

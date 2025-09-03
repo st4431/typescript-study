@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import type { Todo } from '../App';
 
 
@@ -13,7 +12,7 @@ export function TodoList({ todos, onDelete }: TodoListProps) {
       {todos.map((todo) => (
         <li key={todo.id}>
           {todo.text}
-          <button onClick={onDelete(todo.id)}></button>
+          <button onClick={() => onDelete(todo.id)}>削除</button>
         </li>
       ))}
     </ul>

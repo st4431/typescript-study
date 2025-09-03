@@ -1,33 +1,37 @@
-// ReactからuseStateをインポート
-import { useState } from 'react'
-import './App.css'
-import { Counter, type CounterActions } from './Counter'
+import { useState } from 'react';
+import './App.css';
+import { TodoForm } from './components/TodoForm';
+import { TodoList } from './components/TodoList';
+
+export interface Todo {
+  id: number;
+  text: string;
+  isDone: boolean;
+}
 
 function App() {
-  // countというState（変数のようなもの）を作成し、初期値を0に設定
-  // setCountはStateを更新するための関数
-  // setCountという名前は自分で設定できる
-  // 機能自体は標準搭載だが、名前は開発者が自由に設定していい
-  // <>を使用することで、useStateで受け付ける引数の型を明示的にできる
-  const [count, setCount] = useState<number>(0)
+  // useStateはセッターのようなものである上に、画面の再描画を命令する
+  const [todos, setTodos] = useState<Todo[]>([]);
 
-  const counterActions: CounterActions = {
-    increment: () => setCount(c => c + 1),
-    decrement: () => setCount(c => c - 1),
-    reset: () => setCount(0),
-  };
+  const addTodo = (text: string) => {
+    const newTodo: Todo = {
+      id: Date.now(),
+      text: text,
+      isDone: false,
+    };
+    // 「既存のtodosの配列に加えて、newTodoを末尾に追加した新たな配列を作るよ」という意味
+    // todos,push(newTodo)ではダメな理由は画面の再描画がされないから
+    // 配列ごと新しくしないとReactは再描画をしない
+    setTodos([...todos, newTodo]);
+  }
 
   return (
     <>
-      <h1>コンポーネントの練習</h1>
-
-      <Counter
-        label='多機能カウンター'
-        count={count}
-        actions={counterActions}
-      />
+      <h1>TODOリスト</h1>
+      <TodoForm onAdd={addTodo} />
+      <TodoList todos={todos} />
     </>
   );
 }
 
-export default App
+export default App;

@@ -2,6 +2,7 @@ import { useState } from "react";
 
 interface TodoFormProps {
   // 引数が（）ではなく{}で囲まれている場合は、関数あるいはオブジェクトを表す
+  // 関数を使用したければ以下のように記述する
   onAdd: (text: string) => void;
 }
 
@@ -13,6 +14,8 @@ export function TodoForm({ onAdd }: TodoFormProps) {
     if (inputText.trim() === '') {
       return;
     } 
+    // ここで親クラスから呼び出されているaddTodoが、
+    // onAddというTodoFormのPropsとして別の名で呼び出されている
     onAdd(inputText);
     setInputText('');
   };

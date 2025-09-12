@@ -20,7 +20,7 @@ function App() {
       text: text,
       isDone: false,
     };
-    // 「既存のtodosの配列に加えて、newTodoを末尾に追加した新たな配列を作るよ」という意味
+    // 「既存のtodosの配列をコピーし、newTodoを末尾に追加した新たな配列を作るよ」という意味
     setTodos([...todos, newTodo]);
   }
 
@@ -49,7 +49,7 @@ function App() {
 
       {/* TodoListというコンポーネント（メソッド）を呼び出し、
       todosというProps（引数、左辺）としてtodos（引数、右辺）を渡します */}
-      <TodoList todos={todos} onDelete={deleteTodo} />
+      <TodoList todos={todos} onDelete={deleteTodo} onUpdate={updateTodo}/>
     </>
   );
 }

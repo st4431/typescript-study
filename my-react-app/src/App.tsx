@@ -50,7 +50,12 @@ function App() {
   
 
   const deleteTodo = async (id: number) => {
-    setTodos(todos.filter((todo) => todo.id !== id));
+    try {
+      await axios.delete(`http://localhost:8080/api/tasks/${id}`) ;
+      fetchTasks();
+    } catch (error) {
+      console.error("タスクの削除に失敗しました：", error);
+    }
   }
 
   // const updateTodo = (id: number) => {
@@ -74,7 +79,7 @@ function App() {
 
       {/* TodoListというコンポーネント（メソッド）を呼び出し、
       todosというProps（引数、左辺）としてtodos（引数、右辺）を渡します */}
-      <TodoList todos={todos} onDelete={() => {}} onUpdate={() => {}}/>
+      <TodoList todos={todos} onDelete={deleteTodo} onUpdate={() => {}}/>
     </>
   );
 }

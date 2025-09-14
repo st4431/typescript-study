@@ -7,6 +7,7 @@ import { TodoList } from './components/TodoList';
 export interface Todo {
   id: number;
   title: string;
+  taskStatus: 'NOT_STARTED' | 'IN_PROGRESS' | 'COMPLETED';
 }
 
 function App() {
@@ -35,10 +36,11 @@ function App() {
     fetchTasks();
   }, []);
 
-  const addTodo = async (title: string) => {
+  const addTask = async (title: string) => {
     try {
       const newTodo = {
-        title: title
+        title: title,
+        taskStatus: 'NOT_STARTED'
       };
       await axios.post('http://localhost:8080/api/tasks', newTodo);
       fetchTasks();
@@ -46,10 +48,8 @@ function App() {
       console.error("タスクの登録に失敗しました：", error);
     }
   };
-  
-  
 
-  const deleteTodo = async (id: number) => {
+  const deleteTask = async (id: number) => {
     try {
       await axios.delete(`http://localhost:8080/api/tasks/${id}`) ;
       fetchTasks();
@@ -58,28 +58,35 @@ function App() {
     }
   }
 
-  // const updateTodo = (id: number) => {
-  //   // mapは戻り値を必須とする
-  //   // mapは条件式をそのまま記述して良い（必ずしもif文を使わなくてもいい）
-  //   // todo.isDone = !todo.isDone ではプロパティが変わっただけでアドレスは変わっていない（ミューテーション）
-  //   // Reactは「メモリ上のアドレスが変化したか否か」でStateの変化を判断するため、アドレスごと変えないといけない
-  //   // よって、新しいオブジェクトを作り直すことで、プロパティもアドレスも変更する必要がある
-  //   // 以下では元のtodoをコピーし、新しくオブジェクトを作り直している（イミュータブルな更新）
-  //   setTodos(todos.map(todo => 
-  //     todo.id === id ? {...todo, isDone: !todo.isDone} : todo
-  //   ));
-  // }
+  const updateTaskStatus = async (updatedTodo: Todo) => {
+    try {
+      await axios.put('http://localhost:8080/api/tasks', updatedTodo);
+      fetchTasks();
+    } catch (error) {
+      console.error("タスクの更新に失敗しました：", error);
+    }
+    // mapは戻り値を必須とする
+    // mapは条件式をそのまま記述して良い（必ずしもif文を使わなくてもいい）
+    // todo.isDone = !todo.isDone ではプロパティが変わっただけでアドレスは変わっていない（ミューテーション）
+    // Reactは「メモリ上のアドレスが変化したか否か」でStateの変化を判断するため、アドレスごと変えないといけない
+    // よって、新しいオブジェクトを作り直すことで、プロパティもアドレスも変更する必要がある
+    // 以下では元のtodoをコピーし、新しくオブジェクトを作り直している（イミュータブルな更新）
+
+    // setTodos(todos.map(todo => 
+    //   todo.id === id ? {...todo, isDone: !todo.isDone} : todo
+    // ));
+  }
 
   return (
     <>
       <h1>TODOリスト</h1>
       {/* TodoFormというコンポーネント（メソッド）を呼び出し、
       onAddというProps（引数、左辺）としてaddTodo関数（引数、右辺）を渡します */}
-      <TodoForm onAdd={addTodo} />
+      <TodoForm onAdd={addTask} />
 
       {/* TodoListというコンポーネント（メソッド）を呼び出し、
       todosというProps（引数、左辺）としてtodos（引数、右辺）を渡します */}
-      <TodoList todos={todos} onDelete={deleteTodo} onUpdate={() => {}}/>
+      <TodoList todos={todos} onDelete={deleteTask} onUpdate={updateTaskStatus}/>
     </>
   );
 }

@@ -12,11 +12,13 @@ export function TodoList({ todos, onDelete, onUpdate }: TodoListProps) {
     <ul>
       {todos.map((todo) => (
         <li key={todo.id}>
+          {/* checkedはboolean */}
           <input 
             type="checkbox" 
             checked={todo.isDone}
             onChange={() => onUpdate(todo.id)} 
           />
+          {/* isDoneの状態によってクラス名を変更し、CSSの有無を調整している */}
           <span className={todo.isDone ? 'done' : ''}>
             {todo.text}
           </span>
